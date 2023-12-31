@@ -14,7 +14,18 @@ npm i @francescozoccheddu/ts-goodies
 
 ### Without global object pollution:
 
-Use it like any other library:
+Add the global types to `tsconfig.json`:
+```json
+{
+  "compilerOptions": {
+    "types": [
+      "@francescozoccheddu/ts-goodies/index.d.ts",
+    ]
+  },
+}
+```
+
+…and use it like any other library:
 
 ```typescript
 import { nonNul } from '@francescozoccheddu/ts-goodies/arrays';
@@ -26,29 +37,26 @@ console.log(num);
 
 ### With global object pollution:
 
-Import `globals` first:
-
-```typescript
-import '@francescozoccheddu/ts-goodies/globals';
-import { nonNul } from '@francescozoccheddu/ts-goodies/arrays';
-
-installGlobals();
-const numOrNul: RArr<Num | Nul> = [1, 2, null, 4];
-const num: RArr<Num> = numOrNul.nonNul;
-console.log(num);
-```
-
-Don't forget to to add the global types to `tsconfig.json`:
+Add the global types to `tsconfig.json`:
 ```json
 {
   "compilerOptions": {
-    // ...
     "types": [
+      "@francescozoccheddu/ts-goodies/index.d.ts",
       "@francescozoccheddu/ts-goodies/globalTypes.d.ts"
     ]
-    // ...
   },
 }
+```
+
+…and import `globals`:
+
+```typescript
+import '@francescozoccheddu/ts-goodies/globals';
+
+const numOrNul: RArr<Num | Nul> = [1, 2, null, 4];
+const num: RArr<Num> = numOrNul.nonNul;
+console.log(num);
 ```
 
 ## Build
