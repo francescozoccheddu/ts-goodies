@@ -1,6 +1,6 @@
 import { err } from './error';
 import { fromEntries } from './records';
-import { isArr, isNul, isNulOrUnd, isUnd } from './types';
+import { AnyKey, Arr, isArr, isNul, isNulOrUnd, isUnd, Nul, Pred, RArr, Rec, REntries, Und, Unk } from './types';
 
 export const skip = Symbol();
 

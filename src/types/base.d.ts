@@ -63,14 +63,10 @@ declare global {
 
   type AnySet = RSet<Unk>;
 
-  interface Set<T> {
-    get toArr(): Arr<T>;
-  }
-
   // ----- Function -----
 
   type Pred<T> = (arg: T) => Bool;
-  type MPred<TArgs extends AnyRArr> = (...args: TArgs) => Bool;
+  type MPred<TArgs extends AnyArr> = (...args: TArgs) => Bool;
 
   type AnyPred = Pred<any>;
   type AnyMPred = MPred<any[]>;

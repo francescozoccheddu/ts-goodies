@@ -1,12 +1,23 @@
+/// <reference types="./types/base"/>
+
 import { all, isEmpty as isEmptyArr, isSingle, nonNul, nonNulOrUnd, nonUnd, single, singleIf, toRec, toSet } from './arrays';
-import { defineAttributes, defineMethodsOrGetters } from './defineProps';
 import { entries, filterEntries, filterKeys, filterValues, fromEntries, isEmpty as isEmptyRec, mapEntries, mapKeys, mapValues } from './records';
 import { toArr } from './sets';
-import { isArr, isBool, isJson, isNul, isNulOrUnd, isNum, isRec, isSet, isStr, isUnd } from './types';
+import { AnyArr, AnySet, isArr, isBool, isJson, isNul, isNulOrUnd, isNum, isRec, isSet, isStr, isUnd, StrRRec } from './types';
+
+export function defineMethodsOrGetters<TThis>(obj: unknown, props: StrRRec<(instance: TThis, ...args: any[]) => any>): void {
+  Object.defineProperties(obj, mapValues(props, v => ({
+    [v.length === 1 ? 'get' : 'value']: function (this: TThis, ...args: any[]): any { return v(this, ...args); },
+  })));
+}
+
+export function defineAttributes(obj: unknown, props: StrRRec): void {
+  Object.defineProperties(obj, mapValues(props, v => ({ value: v })));
+}
 
 let installed: boolean = false;
 
-function installGlobals(): void {
+function installAugmentations(): void {
   if (installed) {
     return;
   }
@@ -56,6 +67,6 @@ function installGlobals(): void {
 
 }
 
-installGlobals();
+installAugmentations();
 
 export { };

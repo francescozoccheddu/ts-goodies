@@ -2,7 +2,7 @@ import kleur from 'kleur';
 
 import { ErrorPayload, ErrorWithPayload } from './error';
 import { entries, isEmpty } from './records';
-import { isArr, isBool, isNul, isNum, isRec, isStr, isUnd } from './types';
+import { isArr, isBool, isNul, isNum, isRec, isStr, isUnd, Num, RJson, RRec, Str, StrRRec } from './types';
 
 export type Info = StrRRec<RJson | undefined>;
 

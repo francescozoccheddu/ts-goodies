@@ -12,10 +12,7 @@
     "declaration": true,
     "declarationMap": true,
     "outDir": "./dist",
-    "rootDir": "./src",
-    "types": [
-      "./src/index.d.ts"
-    ]
+    "rootDir": "./src"
   },
   "include": [
     "./src/**/*.ts",

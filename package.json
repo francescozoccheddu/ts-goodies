@@ -2,7 +2,7 @@
   "name": "@francescozoccheddu/ts-goodies",
   "description": "Random TypeScript utilities",
   "scripts": {
-    "build": "tsc && cpx -f ./src/*.d.ts ./dist/ && mk-package",
+    "build": "tsc && cpx -f ./src/**/*.d.ts ./dist/ && mk-package",
     "lint": "eslint ./src"
   },
   "repository": {

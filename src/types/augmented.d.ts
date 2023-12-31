@@ -1,3 +1,4 @@
+/// <reference types="./base"/>
 export { };
 declare global {
 
@@ -15,7 +16,7 @@ declare global {
 
   // ----- Array -----
 
-  type Skip = import('src/arrays').Skip
+  type Skip = import('../arrays').Skip
 
   interface Array<T> {
     all(pred: Pred<T>): boolean;

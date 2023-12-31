@@ -1,5 +1,7 @@
 // ----- Create / Get -----
 
+import { AnyKey, Entries, Rec, REntries, REntry, RRec } from './types';
+
 export function fromEntries<TKey extends AnyKey, TValue>(entries: REntries<TKey, TValue>): Rec<TKey, TValue> {
   return Object.fromEntries(entries) as RRec<TKey, TValue>;
 }

@@ -1,4 +1,5 @@
 import { Info } from './log';
+import { R } from './types';
 
 export type ErrorPayload = R<{
   message: string;
