@@ -1,6 +1,6 @@
 import { err } from './errors';
-import { fromEntries } from './records';
-import { AnyKey, Arr, isArr, isNul, isNulOrUnd, isUnd, Nul, Pred, RArr, Rec, REntries, Und, Unk } from './types';
+import { fromArr } from './objects';
+import { AnyKey, Arr, isArr, isNul, isNulOrUnd, isUnd, Nul, Obj, Pred, RArr, REntries, Und, Unk } from './types';
 
 export const skip = Symbol();
 
@@ -49,8 +49,16 @@ export function toSet<T>(arr: RArr<T>): Set<T> {
   return new Set(arr);
 }
 
-export function toRec<TKey extends AnyKey, TValue>(arr: REntries<TKey, TValue>): Rec<TKey, TValue> {
-  return fromEntries(arr);
+export function toObj<TKey extends AnyKey, TValue>(arr: REntries<TKey, TValue>): Obj<TKey, TValue> {
+  return fromArr(arr);
+}
+
+export function toMap<TKey, TValue>(arr: REntries<TKey, TValue>): Map<TKey, TValue> {
+  return new Map(arr);
+}
+
+export function toDict<TKey, TValue>(arr: REntries<TKey, TValue>): Dict<TKey, TValue> {
+  return new Dict(arr);
 }
 
 export function fmap<T, TOut>(arr: RArr<T>, map: (v: T) => TOut | Skip): Arr<Exclude<TOut, Skip>> {
@@ -67,4 +75,11 @@ export function nonUnd<T>(arr: RArr<T | Und>): Arr<Exclude<T, Und>> {
 
 export function nonNulOrUnd<T>(arr: RArr<T | Nul | Und>): Arr<Exclude<T, Nul | Und>> {
   return arr.filter(v => !isNulOrUnd(v)) as Arr<Exclude<T, Nul | Und>>;
+}
+
+export function zip<T1, T2>(arr1: RArr<T1>, arr2: RArr<T2>): Arr<[T1, T2]> {
+  if (arr1.length !== arr2.length) {
+    err('Not the same length');
+  }
+  return arr1.map((v, i) => [v, arr2[i]!] as const);
 }

@@ -11,7 +11,7 @@
     "url": "https://github.com/francescozoccheddu/ts-goodies/issues"
   },
   "license": "MIT",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "keywords": [
     "typescript",
     "utils",
@@ -19,7 +19,7 @@
     "types"
   ],
   "scripts": {
-    "build": "eslint ./src && rimraf ./tsconfig.tsbuildinfo && rimraf ./dist && tsc && cpx -f ./src/**/*.d.ts ./dist/ && mk-package",
+    "build": "eslint ./src && rimraf ./tsconfig.tsbuildinfo && rimraf ./dist && tsc && cpy types/*.d.ts ../dist/types --cwd src && mk-package",
     "publish": "npm run build && cd ./dist && npm publish --access public"
   },
   "homepage": "https://github.com/francescozoccheddu/ts-goodies#readme",
@@ -28,6 +28,7 @@
     "@typescript-eslint/eslint-plugin": "^6.16.0",
     "@typescript-eslint/parser": "^6.16.0",
     "cpx2": "^7.0.1",
+    "cpy-cli": "^5.0.0",
     "eslint": "^8.56.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",

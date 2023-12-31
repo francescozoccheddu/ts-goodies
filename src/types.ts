@@ -1,5 +1,5 @@
 import { all } from './arrays';
-import { entries } from './records';
+import { toArr } from './objects';
 
 export type R<T> = Readonly<T>;
 
@@ -42,11 +42,15 @@ export function isSet(v: Unk): v is AnySet {
   return v instanceof Set;
 }
 
+export function isMap(v: Unk): v is AnyMap {
+  return v instanceof Map;
+}
+
 export function isArr(v: Unk): v is AnyArr {
   return Array.isArray(v);
 }
 
-export function isRec(v: Unk): v is AnyRec {
+export function isObj(v: Unk): v is AnyObj {
   return v === Object(v);
 }
 
@@ -72,32 +76,33 @@ export function isJson(v: Unk): v is RJson {
   if (isNum(v)) return true;
   if (isStr(v)) return true;
   if (isArr(v)) return all(v, isJson);
-  if (isRec(v)) return all(entries(v), ([k, v]: any) => isStr(k) && isJson(v));
+  if (isObj(v)) return all(toArr(v), ([k, v]: any) => isStr(k) && isJson(v));
   return false;
 }
 
-// ----- Record -----
+// ----- Entries -----
+
+export type Entry<TKey, TValue> = [key: TKey, value: TValue];
+export type REntry<TKey, TValue> = R<Entry<TKey, TValue>>;
+
+export type AnyEntry = REntry<Unk, Unk>;
+
+export type Entries<TKey, TValue> = Arr<Entry<TKey, TValue>>;
+export type REntries<TKey, TValue> = RArr<REntry<TKey, TValue>>;
+
+// ----- Objects -----
 
 export type AnyKey = keyof any;
 
-export type Rec<TKey extends AnyKey = AnyKey, TValue = Unk> = Record<TKey, TValue>;
-export type RRec<TKey extends AnyKey = AnyKey, TValue = Unk> = R<Rec<TKey, TValue>>;
+export type Obj<TKey extends AnyKey = AnyKey, TValue = Unk> = Record<TKey, TValue>;
+export type RObj<TKey extends AnyKey = AnyKey, TValue = Unk> = R<Obj<TKey, TValue>>;
 
-export type AnyRec<TValue = Unk> = RRec<AnyKey, TValue>;
+export type AnyObj = RObj<AnyKey, Unk>;
 
-export type StrRec<TValue = Unk> = Rec<Str, TValue>;
-export type StrRRec<TValue = Unk> = RRec<Str, TValue>;
+export type StrObj<TValue = Unk> = Obj<Str, TValue>;
+export type RStrObj<TValue = Unk> = RObj<Str, TValue>;
 
-export type Entry<TKey extends AnyKey, TValue> = [key: TKey, value: TValue];
-export type REntry<TKey extends AnyKey, TValue> = R<Entry<TKey, TValue>>;
-
-export type AnyEntry = Entry<AnyKey, Unk>;
-export type AnyREntry = REntry<AnyKey, Unk>;
-
-export type Entries<TKey extends AnyKey, TValue> = Arr<Entry<TKey, TValue>>;
-export type REntries<TKey extends AnyKey, TValue> = RArr<REntry<TKey, TValue>>;
-
-// ----- Array -----
+// ----- Arrays -----
 
 export type Arr<T> = Array<T>;
 export type RArr<T> = R<Arr<T>>;
@@ -107,13 +112,19 @@ export type AnyArr = RArr<Unk>;
 export type ArrOrSingle<T> = T | Arr<T>;
 export type RArrOrSingle<T> = T | RArr<T>;
 
-// ----- Set -----
+// ----- Sets -----
 
 export type RSet<T> = ReadonlySet<T>;
 
 export type AnySet = RSet<Unk>;
 
-// ----- Function -----
+// ----- Maps -----
+
+export type RMap<TKey, TValue> = ReadonlyMap<TKey, TValue>;
+
+export type AnyMap = RMap<Unk, Unk>;
+
+// ----- Functions -----
 
 export type Pred<T> = (arg: T) => Bool;
 export type MPred<TArgs extends AnyArr> = (...args: TArgs) => Bool;

@@ -1,10 +1,10 @@
 import kleur from 'kleur';
 
 import { ErrorPayload, ErrorWithPayload } from './errors';
-import { entries, isEmpty } from './records';
-import { isArr, isBool, isNul, isNum, isRec, isStr, isUnd, Num, RJson, RRec, Str, StrRRec } from './types';
+import { isEmpty,toArr } from './objects';
+import { isArr, isBool, isNul, isNum, isStr, isUnd, Num, RJson, RObj, RStrObj,Str } from './types';
 
-export type Info = StrRRec<RJson | undefined>;
+export type Info = RStrObj<RJson | undefined>;
 
 const stripAnsiRegex = new RegExp([
   '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
@@ -44,10 +44,10 @@ function formatJson(v: RJson | Info, mode: FormatJsonMode = FormatJsonMode.root)
     const coloredSafeString = colors[Color.infoVal](safeString);
     return safeString.includes('\n') ? `\n${indent(coloredSafeString, '  \'')}'` : `'${coloredSafeString}'`;
   }
-  else if (isRec(v)) {
+  else if (isObj(v)) {
     return isEmpty(v)
       ? '{}'
-      : (mode === FormatJsonMode.dictValue ? '\n' : '') + entries(v)
+      : (mode === FormatJsonMode.dictValue ? '\n' : '') + toArr(v)
         .filter(([, v]) => !isUnd(v))
         .map(([k, v]) => indent(`${colors[Color.infoKey](formatStr(k.toString(), 50))}: ${formatJson(v as RJson, FormatJsonMode.dictValue)}`, mode === FormatJsonMode.dictValue ? '  ' : ''))
         .join('\n');
@@ -64,7 +64,7 @@ enum Color {
   meta, msg, info, infoKey, infoVal, infoValBadChar, warn, done
 }
 
-const colors: RRec<Color, (text: Str) => Str> = {
+const colors: RObj<Color, (text: Str) => Str> = {
   [Color.meta]: kleur.red,
   [Color.msg]: kleur.red().bold,
   [Color.info]: kleur.gray,
