@@ -16,7 +16,7 @@ declare global {
 
   // ----- Array -----
 
-  type Skip = import('../arrays').Skip
+  type Skip = import('../arrays').Skip;
 
   interface Array<T> {
     all(pred: Pred<T>): boolean;

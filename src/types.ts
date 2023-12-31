@@ -1,7 +1,7 @@
 import { all } from './arrays';
 import { entries } from './records';
 
-export type R<T> = Readonly<T>
+export type R<T> = Readonly<T>;
 
 // ----- Primitives -----
 
@@ -78,34 +78,34 @@ export function isJson(v: Unk): v is RJson {
 
 // ----- Record -----
 
-export type AnyKey = keyof any
+export type AnyKey = keyof any;
 
 export type Rec<TKey extends AnyKey = AnyKey, TValue = Unk> = Record<TKey, TValue>;
-export type RRec<TKey extends AnyKey = AnyKey, TValue = Unk> = R<Rec<TKey, TValue>>
+export type RRec<TKey extends AnyKey = AnyKey, TValue = Unk> = R<Rec<TKey, TValue>>;
 
-export type AnyRec<TValue = Unk> = RRec<AnyKey, TValue>
+export type AnyRec<TValue = Unk> = RRec<AnyKey, TValue>;
 
-export type StrRec<TValue = Unk> = Rec<Str, TValue>
-export type StrRRec<TValue = Unk> = RRec<Str, TValue>
+export type StrRec<TValue = Unk> = Rec<Str, TValue>;
+export type StrRRec<TValue = Unk> = RRec<Str, TValue>;
 
-export type Entry<TKey extends AnyKey, TValue> = [key: TKey, value: TValue]
-export type REntry<TKey extends AnyKey, TValue> = R<Entry<TKey, TValue>>
+export type Entry<TKey extends AnyKey, TValue> = [key: TKey, value: TValue];
+export type REntry<TKey extends AnyKey, TValue> = R<Entry<TKey, TValue>>;
 
 export type AnyEntry = Entry<AnyKey, Unk>;
 export type AnyREntry = REntry<AnyKey, Unk>;
 
-export type Entries<TKey extends AnyKey, TValue> = Arr<Entry<TKey, TValue>>
-export type REntries<TKey extends AnyKey, TValue> = RArr<REntry<TKey, TValue>>
+export type Entries<TKey extends AnyKey, TValue> = Arr<Entry<TKey, TValue>>;
+export type REntries<TKey extends AnyKey, TValue> = RArr<REntry<TKey, TValue>>;
 
 // ----- Array -----
 
-export type Arr<T> = T[]
-export type RArr<T> = R<Arr<T>>
+export type Arr<T> = Array<T>;
+export type RArr<T> = R<Arr<T>>;
 
-export type AnyArr = RArr<Unk>
+export type AnyArr = RArr<Unk>;
 
-export type ArrOrSingle<T> = T | Arr<T>
-export type RArrOrSingle<T> = T | RArr<T>
+export type ArrOrSingle<T> = T | Arr<T>;
+export type RArrOrSingle<T> = T | RArr<T>;
 
 // ----- Set -----
 

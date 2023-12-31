@@ -1,5 +1,3 @@
-/// <reference types="./types/base"/>
-
 import { all, isEmpty as isEmptyArr, isSingle, nonNul, nonNulOrUnd, nonUnd, single, singleIf, toRec, toSet } from './arrays';
 import { entries, filterEntries, filterKeys, filterValues, fromEntries, isEmpty as isEmptyRec, mapEntries, mapKeys, mapValues } from './records';
 import { toArr } from './sets';
