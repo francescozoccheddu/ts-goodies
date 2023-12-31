@@ -1,4 +1,4 @@
-import { err } from './error';
+import { err } from './errors';
 import { fromEntries } from './records';
 import { AnyKey, Arr, isArr, isNul, isNulOrUnd, isUnd, Nul, Pred, RArr, Rec, REntries, Und, Unk } from './types';
 

@@ -1,4 +1,4 @@
-import { Info } from './log';
+import { Info } from './logs';
 import { R } from './types';
 
 export type ErrorPayload = R<{

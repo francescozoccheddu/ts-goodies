@@ -1,21 +1,27 @@
 {
   "name": "@francescozoccheddu/ts-goodies",
   "description": "Random TypeScript utilities",
-  "scripts": {
-    "build": "tsc && cpx -f ./src/**/*.d.ts ./dist/ && mk-package",
-    "lint": "eslint ./src"
-  },
+  "author": "Francesco Zoccheddu",
+  "url": "https://github.com/francescozoccheddu/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/francescozoccheddu/ts-goodies.git"
   },
-  "author": "Francesco Zoccheddu",
-  "url": "https://github.com/francescozoccheddu/",
-  "version": "0.0.1",
-  "license": "UNLICENSED",
-  "private": true,
   "bugs": {
     "url": "https://github.com/francescozoccheddu/ts-goodies/issues"
+  },
+  "license": "MIT",
+  "version": "0.0.2",
+  "keywords": [
+    "typescript",
+    "utils",
+    "collections",
+    "types"
+  ],
+  "scripts": {
+    "build": "rimraf ./tsconfig.tsbuildinfo && rimraf ./dist && tsc && cpx -f ./src/**/*.d.ts ./dist/ && mk-package",
+    "lint": "eslint ./src",
+    "publish": "npm run lint && npm run build && cd ./dist && npm publish --access public"
   },
   "homepage": "https://github.com/francescozoccheddu/ts-goodies#readme",
   "devDependencies": {
@@ -29,6 +35,7 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-unused-imports": "^3.0.0",
     "mk-package": "^1.0.2",
+    "rimraf": "^5.0.5",
     "typescript": "^5.3.3"
   },
   "dependencies": {

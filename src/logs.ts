@@ -1,6 +1,6 @@
 import kleur from 'kleur';
 
-import { ErrorPayload, ErrorWithPayload } from './error';
+import { ErrorPayload, ErrorWithPayload } from './errors';
 import { entries, isEmpty } from './records';
 import { isArr, isBool, isNul, isNum, isRec, isStr, isUnd, Num, RJson, RRec, Str, StrRRec } from './types';
 
