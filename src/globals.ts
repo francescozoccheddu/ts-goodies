@@ -1,8 +1,8 @@
-import { all, isEmpty as isEmptyArr, isSingle, nonNul, nonNulOrUnd, nonUnd, single, singleIf, toRec, toSet } from 'src/arrays';
-import { defineAttributes, defineMethodsOrGetters } from 'src/defineProps';
-import { entries, filterEntries, filterKeys, filterValues, fromEntries, isEmpty as isEmptyRec, mapEntries, mapKeys, mapValues } from 'src/records';
-import { toArr } from 'src/sets';
-import { isArr, isBool, isJson, isNul, isNulOrUnd, isNum, isRec, isSet, isStr, isUnd } from 'src/types';
+import { all, isEmpty as isEmptyArr, isSingle, nonNul, nonNulOrUnd, nonUnd, single, singleIf, toRec, toSet } from './arrays';
+import { defineAttributes, defineMethodsOrGetters } from './defineProps';
+import { entries, filterEntries, filterKeys, filterValues, fromEntries, isEmpty as isEmptyRec, mapEntries, mapKeys, mapValues } from './records';
+import { toArr } from './sets';
+import { isArr, isBool, isJson, isNul, isNulOrUnd, isNum, isRec, isSet, isStr, isUnd } from './types';
 
 let installed: boolean = false;
 

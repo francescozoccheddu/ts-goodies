@@ -1,5 +1,5 @@
 
-import { mapValues } from 'src/records';
+import { mapValues } from './records';
 
 export function defineMethodsOrGetters<TThis>(obj: unknown, props: StrRRec<(instance: TThis, ...args: any[]) => any>): void {
   Object.defineProperties(obj, mapValues(props, v => ({

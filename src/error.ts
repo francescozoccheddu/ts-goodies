@@ -1,4 +1,4 @@
-import { Info } from 'src/log';
+import { Info } from './log';
 
 export type ErrorPayload = R<{
   message: string;

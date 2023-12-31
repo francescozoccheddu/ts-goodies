@@ -1,6 +1,6 @@
-import { err } from 'src/error';
-import { fromEntries } from 'src/records';
-import { isArr, isNul, isNulOrUnd, isUnd } from 'src/types';
+import { err } from './error';
+import { fromEntries } from './records';
+import { isArr, isNul, isNulOrUnd, isUnd } from './types';
 
 export const skip = Symbol();
 

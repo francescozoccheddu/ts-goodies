@@ -1,7 +1,8 @@
 import kleur from 'kleur';
-import { ErrorPayload, ErrorWithPayload } from 'src/error';
-import { entries, isEmpty } from 'src/records';
-import { isArr, isBool, isNul, isNum, isRec, isStr, isUnd } from 'src/types';
+
+import { ErrorPayload, ErrorWithPayload } from './error';
+import { entries, isEmpty } from './records';
+import { isArr, isBool, isNul, isNum, isRec, isStr, isUnd } from './types';
 
 export type Info = StrRRec<RJson | undefined>;
 

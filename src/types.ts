@@ -1,5 +1,5 @@
-import { all } from 'src/arrays';
-import { entries } from 'src/records';
+import { all } from './arrays';
+import { entries } from './records';
 
 export function isStr(v: Unk): v is Str {
   return typeof v === 'string' || v instanceof String;
