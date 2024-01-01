@@ -1,6 +1,6 @@
 import kleur from 'kleur';
 
-import { ErrorPayload, ErrorWithPayload } from './errors';
+import { ErrorPayload, toErrPayload } from './errors';
 import { isEmpty, toArr } from './objects';
 import { isArr, isBool, isNul, isNum, isStr, isUnd, Num, RObj, Str } from './types';
 
@@ -64,11 +64,11 @@ function indent(text: Str, prefix: Str = ''): Str {
 }
 
 enum Color {
-  errMeta, errMsg, info, infoKey, infoVal, infoValBadChar, warn, done, debug,
+  err, errMsg, info, infoKey, infoVal, infoValBadChar, warn, done, debug,
 }
 
 const colors: RObj<Color, (text: Str) => Str> = {
-  [Color.errMeta]: kleur.red,
+  [Color.err]: kleur.red,
   [Color.errMsg]: kleur.red().bold,
   [Color.info]: kleur.gray,
   [Color.infoKey]: kleur.gray().bold,
@@ -85,7 +85,7 @@ function prErrPayloadImpl(payload: ErrorPayload, depth: Num): void {
   print(colors[Color.errMsg](payload.message));
   prInfo(payload.info, print);
   if (payload.cause) {
-    print(colors[Color.errMeta]('Caused by:'));
+    print(colors[Color.err]('Caused by:'));
     prErrPayloadImpl(payload.cause, depth + 1);
   }
 }
@@ -99,6 +99,11 @@ export function prInfo(info: Info, log: (text: Str) => void = console.log): void
 export function prDebug(msg: Str, info?: Info): void {
   console.debug(colors[Color.debug](msg));
   prInfo(info, console.debug);
+}
+
+export function prErr(msg: Str, info?: Info): void {
+  console.error(colors[Color.err](msg));
+  prInfo(info, console.error);
 }
 
 export function prWarn(msg: Str, info?: Info): void {
@@ -115,9 +120,11 @@ export function prErrPayload(payload: ErrorPayload): void {
   prErrPayloadImpl(payload, 0);
 }
 
-export function prErr(err: ErrorWithPayload, msg: Str | Nul = null): void {
+export function prExc(exc: unknown, msg?: Str, info?: Und): void;
+export function prExc(exc: unknown, msg: Str, info?: Info): void;
+export function prExc(exc: unknown, msg?: Str, info?: Info): void {
   if (msg) {
-    console.error(colors[Color.errMeta](msg));
+    prErr(msg, info);
   }
-  prErrPayload(err.payload);
+  prErrPayload(toErrPayload(exc));
 }
