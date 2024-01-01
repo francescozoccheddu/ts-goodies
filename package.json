@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "build": "tsc && cpy types/*.d.ts ../dist/types --cwd src && mk-package",
-    "linto": "eslint ./src",
+    "lint": "eslint ./src",
     "clean": "rimraf ./tsconfig.tsbuildinfo && rimraf ./dist",
     "publish": "npm run clean && npm run lint && npm run build && cd ./dist && npm publish --access public"
   },
