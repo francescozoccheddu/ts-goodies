@@ -1,4 +1,4 @@
-import type {types } from '../index';
+import type { types } from '../index';
 
 declare global {
 
@@ -20,25 +20,25 @@ declare global {
 
   // ----- types (entries) -----
 
-  type Entry<TKey, TValue> = types.Entry<TKey, TValue>;
-  type REntry<TKey, TValue> = types.REntry<TKey, TValue>;
+  type Entry<TK, TV> = types.Entry<TK, TV>;
+  type REntry<TK, TV> = types.REntry<TK, TV>;
 
   type AnyEntry = types.AnyEntry;
 
-  type Entries<TKey, TValue> = types.Entries<TKey, TValue>;
-  type REntries<TKey, TValue> = types.REntries<TKey, TValue>;
+  type Entries<TK, TV> = types.Entries<TK, TV>;
+  type REntries<TK, TV> = types.REntries<TK, TV>;
 
   // ----- types (objects) -----
 
   type AnyKey = types.AnyKey;
 
-  type Obj<TKey extends AnyKey = AnyKey, TValue = Unk> = types.Obj<TKey, TValue>;
-  type RObj<TKey extends AnyKey = AnyKey, TValue = Unk> = types.RObj<TKey, TValue>;
+  type Obj<TK extends AnyKey = AnyKey, TV = Unk> = types.Obj<TK, TV>;
+  type RObj<TK extends AnyKey = AnyKey, TV = Unk> = types.RObj<TK, TV>;
 
   type AnyObj = types.AnyObj;
 
-  type StrObj<TValue = Unk> = types.StrObj<TValue>;
-  type RStrObj<TValue = Unk> = types.RStrObj<TValue>;
+  type StrObj<TV = Unk> = types.StrObj<TV>;
+  type RStrObj<TV = Unk> = types.RStrObj<TV>;
 
   // ----- types (arrays) -----
 
@@ -58,9 +58,12 @@ declare global {
 
   // ----- types (maps) -----
 
-  type RMap<TKey, TValue> = types.RMap<TKey, TValue>;
+  type RMap<TK, TV> = types.RMap<TK, TV>;
 
   type AnyMap = types.AnyMap;
+
+  type StrMap<TV = Unk> = types.StrMap<TV>;
+  type RStrMap<TV = Unk> = types.RStrMap<TV>;
 
   // ----- types (functions) -----
 

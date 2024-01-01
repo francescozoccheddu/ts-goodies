@@ -1,7 +1,9 @@
 export * as arrays from './arrays';
-export * as errors from './errors';
 export * as dicts from './dicts';
+export * as errors from './errors';
 export * as logs from './logs';
+export * as maps from './maps';
+export * as math from './math';
 export * as objects from './objects';
 export * as sets from './sets';
 export * as types from './types';

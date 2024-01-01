@@ -2,40 +2,40 @@
 
 import { AnyKey, Entries, Obj, REntries, REntry, RObj } from './types';
 
-export function fromArr<TKey extends AnyKey, TValue>(entries: REntries<TKey, TValue>): Obj<TKey, TValue> {
-  return Object.fromEntries(entries) as RObj<TKey, TValue>;
+export function fromArr<TK extends AnyKey, TV>(entries: REntries<TK, TV>): Obj<TK, TV> {
+  return Object.fromEntries(entries) as RObj<TK, TV>;
 }
 
-export function toArr<TKey extends AnyKey, TValue>(obj: RObj<TKey, TValue>): Entries<TKey, TValue> {
-  return Object.entries(obj) as unknown as Entries<TKey, TValue>;
+export function toArr<TK extends AnyKey, TV>(obj: RObj<TK, TV>): Entries<TK, TV> {
+  return Object.entries(obj) as Unk as Entries<TK, TV>;
 }
 
-export function isEmpty<TKey extends AnyKey, TValue>(obj: RObj<TKey, TValue>): boolean {
+export function isEmpty<TK extends AnyKey, TV>(obj: RObj<TK, TV>): Bool {
   return Object.keys(obj).length === 0;
 }
 
 // ----- Map -----
 
-export function mapEntries<TKey extends AnyKey, TValue, TOutKey extends AnyKey, TOutValue>(obj: RObj<TKey, TValue>, map: (key: TKey, value: TValue) => REntry<TOutKey, TOutValue>): Obj<TOutKey, TOutValue> {
+export function mapEntries<TK extends AnyKey, TV, TK2 extends AnyKey, TV2>(obj: RObj<TK, TV>, map: (key: TK, value: TV) => REntry<TK2, TV2>): Obj<TK2, TV2> {
   return fromArr(toArr(obj).map(([k, v]) => map(k, v)));
 }
 
-export function mapKeys<TKey extends AnyKey, TValue, TOutKey extends AnyKey>(obj: RObj<TKey, TValue>, map: (key: TKey, value: TValue) => TOutKey): Obj<TOutKey, TValue> {
+export function mapKeys<TK extends AnyKey, TV, TK2 extends AnyKey>(obj: RObj<TK, TV>, map: (key: TK, value: TV) => TK2): Obj<TK2, TV> {
   return mapEntries(obj, (k, v) => [map(k, v), v]);
 }
 
-export function mapValues<TKey extends AnyKey, TValue, TOutValue>(obj: RObj<TKey, TValue>, map: (value: TValue, key: TKey) => TOutValue): Obj<TKey, TOutValue> {
+export function mapValues<TK extends AnyKey, TV, TV2>(obj: RObj<TK, TV>, map: (value: TV, key: TK) => TV2): Obj<TK, TV2> {
   return mapEntries(obj, (k, v) => [k, map(v, k)]);
 }
 
 // ----- Filter -----
 
-export function filterEntries<TKey extends AnyKey, TValue>(obj: RObj<TKey, TValue>, pred: (key: TKey, value: TValue) => boolean): Obj<TKey, TValue> {
+export function filterEntries<TK extends AnyKey, TV>(obj: RObj<TK, TV>, pred: (key: TK, value: TV) => Bool): Obj<TK, TV> {
   return fromArr(toArr(obj).filter(([k, v]) => pred(k, v)));
 }
 
 export const filterKeys = filterEntries;
 
-export function filterValues<TKey extends AnyKey, TValue>(obj: RObj<TKey, TValue>, pred: (value: TValue, key: TKey) => boolean): Obj<TKey, TValue> {
+export function filterValues<TK extends AnyKey, TV>(obj: RObj<TK, TV>, pred: (value: TV, key: TK) => Bool): Obj<TK, TV> {
   return filterEntries(obj, (k, v) => pred(v, k));
 }

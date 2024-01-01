@@ -4,7 +4,7 @@ import { ErrorPayload, ErrorWithPayload } from './errors';
 import { isEmpty,toArr } from './objects';
 import { isArr, isBool, isNul, isNum, isStr, isUnd, Num, RJson, RObj, RStrObj,Str } from './types';
 
-export type Info = RStrObj<RJson | undefined>;
+export type Info = RStrObj<RJson | Und>;
 
 const stripAnsiRegex = new RegExp([
   '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
@@ -52,7 +52,7 @@ function formatJson(v: RJson | Info, mode: FormatJsonMode = FormatJsonMode.root)
         .map(([k, v]) => indent(`${colors[Color.infoKey](formatStr(k.toString(), 50))}: ${formatJson(v as RJson, FormatJsonMode.dictValue)}`, mode === FormatJsonMode.dictValue ? '  ' : ''))
         .join('\n');
   }
-  return colors[Color.infoVal]('unknown');
+  return colors[Color.infoVal]('Unk');
 }
 
 function indent(text: Str, prefix: Str = ''): Str {
@@ -106,7 +106,7 @@ export function prErrPayload(payload: ErrorPayload): void {
   prErrPayloadImpl(payload, 0);
 }
 
-export function prErr(err: ErrorWithPayload, msg: Str | null = null): void {
+export function prErr(err: ErrorWithPayload, msg: Str | Nul = null): void {
   if (msg) {
     console.error(colors[Color.meta](msg));
   }

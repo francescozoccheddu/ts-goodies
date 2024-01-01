@@ -15,21 +15,21 @@ const valueDescriptor: PropertyDescriptor = {
   configurable: false,
 };
 
-function defineMethodsOrGetters<TThis>(obj: unknown, props: RStrObj<(instance: TThis, ...args: any[]) => any>): void {
+function defineMethodsOrGetters<TThis>(obj: Unk, props: RStrObj<(instance: TThis, ...args: any[]) => any>): void {
   Object.defineProperties(obj, objects.mapValues(props, v => ({
     ...(v.length === 1 ? getterDescriptor : valueDescriptor),
     [v.length === 1 ? 'get' : 'value']: function (this: TThis, ...args: any[]): any { return v(this, ...args); },
   })));
 }
 
-function defineAttributes(obj: unknown, props: RStrObj): void {
+function defineAttributes(obj: Unk, props: RStrObj): void {
   Object.defineProperties(obj, objects.mapValues(props, v => ({
     ...valueDescriptor,
     value: v,
   })));
 }
 
-let installed: boolean = false;
+let installed: Bool = false;
 
 function installAugmentations(): void {
   if (installed) {
@@ -88,15 +88,15 @@ function installAugmentations(): void {
 installAugmentations();
 
 interface ArrayAugmentations<T> {
-  all(pred: Pred<T>): boolean;
+  all(pred: Pred<T>): Bool;
   get isEmpty(): Bool;
   get isSingle(): Bool;
   singleIf(pred: Pred<T>): T;
   get single(): T;
   get toSet(): Set<T>;
-  get toObj(): T extends REntry<infer TKey extends AnyKey, infer TValue> ? Obj<TKey, TValue> : never;
-  get toMap(): T extends REntry<infer TKey, infer TValue> ? Map<TKey, TValue> : never;
-  get toDict(): T extends REntry<infer TKey, infer TValue> ? Dict<TKey, TValue> : never;
+  get toObj(): T extends REntry<infer TK extends AnyKey, infer TV> ? Obj<TK, TV> : never;
+  get toMap(): T extends REntry<infer TK, infer TV> ? Map<TK, TV> : never;
+  get toDict(): T extends REntry<infer TK, infer TV> ? Dict<TK, TV> : never;
   fmap<TOut>(map: (v: T) => TOut | Skip): Arr<Exclude<TOut, Skip>>;
   get nonNul(): Arr<Exclude<T, Nul>>;
   get nonUnd(): Arr<Exclude<T, Und>>;
@@ -120,21 +120,21 @@ declare global {
   function isArr(v: Unk): v is AnyArr;
   function isObj(v: Unk): v is AnyObj;
   function isUnd(v: Unk): v is Und;
-  function isNul(v: Unk): v is null;
-  function isNulOrUnd(v: Unk): v is null | undefined;
+  function isNul(v: Unk): v is Nul;
+  function isNulOrUnd(v: Unk): v is Nul | Und;
   function isJson(v: Unk): v is RJson;
 
   // ----- objects -----
 
-  function objFromArr<TKey extends AnyKey, TValue>(entries: REntries<TKey, TValue>): Obj<TKey, TValue>;
-  function objToArr<TKey extends AnyKey, TValue>(obj: RObj<TKey, TValue>): Entries<TKey, TValue>;
-  function isEmptyObj<TKey extends AnyKey, TValue>(obj: RObj<TKey, TValue>): boolean;
-  function mapEntries<TKey extends AnyKey, TValue, TOutKey extends AnyKey, TOutValue>(obj: RObj<TKey, TValue>, map: (key: TKey, value: TValue) => REntry<TOutKey, TOutValue>): Obj<TOutKey, TOutValue>;
-  function mapKeys<TKey extends AnyKey, TValue, TOutKey extends AnyKey>(obj: RObj<TKey, TValue>, map: (key: TKey, value: TValue) => TOutKey): Obj<TOutKey, TValue>;
-  function mapValues<TKey extends AnyKey, TValue, TOutValue>(obj: RObj<TKey, TValue>, map: (value: TValue, key: TKey) => TOutValue): Obj<TKey, TOutValue>;
-  function filterEntries<TKey extends AnyKey, TValue>(obj: RObj<TKey, TValue>, pred: (key: TKey, value: TValue) => boolean): Obj<TKey, TValue>;
-  function filterKeys<TKey extends AnyKey, TValue>(obj: RObj<TKey, TValue>, pred: (key: TKey, value: TValue) => boolean): Obj<TKey, TValue>;
-  function filterValues<TKey extends AnyKey, TValue>(obj: RObj<TKey, TValue>, pred: (value: TValue, key: TKey) => boolean): Obj<TKey, TValue>;
+  function objFromArr<TK extends AnyKey, TV>(entries: REntries<TK, TV>): Obj<TK, TV>;
+  function objToArr<TK extends AnyKey, TV>(obj: RObj<TK, TV>): Entries<TK, TV>;
+  function isEmptyObj<TK extends AnyKey, TV>(obj: RObj<TK, TV>): Bool;
+  function mapEntries<TK extends AnyKey, TV, TK2 extends AnyKey, TV2>(obj: RObj<TK, TV>, map: (key: TK, value: TV) => REntry<TK2, TV2>): Obj<TK2, TV2>;
+  function mapKeys<TK extends AnyKey, TV, TK2 extends AnyKey>(obj: RObj<TK, TV>, map: (key: TK, value: TV) => TK2): Obj<TK2, TV>;
+  function mapValues<TK extends AnyKey, TV, TV2>(obj: RObj<TK, TV>, map: (value: TV, key: TK) => TV2): Obj<TK, TV2>;
+  function filterEntries<TK extends AnyKey, TV>(obj: RObj<TK, TV>, pred: (key: TK, value: TV) => Bool): Obj<TK, TV>;
+  function filterKeys<TK extends AnyKey, TV>(obj: RObj<TK, TV>, pred: (key: TK, value: TV) => Bool): Obj<TK, TV>;
+  function filterValues<TK extends AnyKey, TV>(obj: RObj<TK, TV>, pred: (value: TV, key: TK) => Bool): Obj<TK, TV>;
 
   // ----- arrays -----
 
@@ -148,14 +148,17 @@ declare global {
 
   // ----- dicts -----
 
-  class Dict<TK, TV> extends dicts.Dict<TK, TV> {}
+  class Dict<TK, TV> extends dicts.Dict<TK, TV> { }
   type RDict<TK, TV> = dicts.RDict<TK, TV>;
 
   type AnyDict = dicts.AnyDict;
 
+  type StrDict<TV = Unk> = dicts.StrDict<TV>;
+  type RStrDict<TV = Unk> = dicts.RStrDict<TV>;
+
   // ----- errors -----
 
-  function err(msg: string, info?: Info): never;
+  function err(msg: Str, info?: Info): never;
 
 }
 

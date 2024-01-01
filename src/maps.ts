@@ -1,5 +1,5 @@
 import { Arr } from './types';
 
-export function toArr<TKey, TValue>(arr: RMap<TKey, TValue>): Arr<REntry<TKey, TValue>> {
+export function toArr<TK, TV>(arr: RMap<TK, TV>): Arr<REntry<TK, TV>> {
   return Array.from(arr);
 }

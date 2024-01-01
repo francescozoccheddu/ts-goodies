@@ -10,20 +10,20 @@ export function singleToArr<T>(arrOrSingle: T): T extends Arr<Unk> ? T : Arr<T> 
   return (isArr(arrOrSingle) ? arrOrSingle : [arrOrSingle]) as T extends Arr<Unk> ? T : Arr<T>;
 }
 
-export function all<T>(arr: RArr<T>, pred: Pred<T>): boolean {
+export function all<T>(arr: RArr<T>, pred: Pred<T>): Bool {
   return !arr.some(v => !pred(v));
 }
 
-export function isEmpty<T>(arr: RArr<T>): boolean {
+export function isEmpty<T>(arr: RArr<T>): Bool {
   return arr.length === 0;
 }
 
-export function isSingle<T>(arr: RArr<T>): boolean {
+export function isSingle<T>(arr: RArr<T>): Bool {
   return arr.length === 1;
 }
 
-export function singleIf<T>(arr: RArr<T>, pred: Pred<T> | null = null): T {
-  let index: number = -1;
+export function singleIf<T>(arr: RArr<T>, pred: Pred<T> | Nul = null): T {
+  let index: Num = -1;
   arr.forEach((v, i) => {
     if (pred?.(v) ?? true) {
       if (index >= 0) {
@@ -49,15 +49,15 @@ export function toSet<T>(arr: RArr<T>): Set<T> {
   return new Set(arr);
 }
 
-export function toObj<TKey extends AnyKey, TValue>(arr: REntries<TKey, TValue>): Obj<TKey, TValue> {
+export function toObj<TK extends AnyKey, TV>(arr: REntries<TK, TV>): Obj<TK, TV> {
   return fromArr(arr);
 }
 
-export function toMap<TKey, TValue>(arr: REntries<TKey, TValue>): Map<TKey, TValue> {
+export function toMap<TK, TV>(arr: REntries<TK, TV>): Map<TK, TV> {
   return new Map(arr);
 }
 
-export function toDict<TKey, TValue>(arr: REntries<TKey, TValue>): Dict<TKey, TValue> {
+export function toDict<TK, TV>(arr: REntries<TK, TV>): Dict<TK, TV> {
   return new Dict(arr);
 }
 
@@ -66,7 +66,7 @@ export function fmap<T, TOut>(arr: RArr<T>, map: (v: T) => TOut | Skip): Arr<Exc
 }
 
 export function nonNul<T>(arr: RArr<T | Nul>): Arr<Exclude<T, Nul>> {
-  return arr.filter(v => !isNul(v)) as Arr<Exclude<T, null>>;
+  return arr.filter(v => !isNul(v)) as Arr<Exclude<T, Nul>>;
 }
 
 export function nonUnd<T>(arr: RArr<T | Und>): Arr<Exclude<T, Und>> {

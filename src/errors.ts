@@ -2,9 +2,9 @@ import { Info } from './logs';
 import { R } from './types';
 
 export type ErrorPayload = R<{
-  message: string;
+  message: Str;
   info: Info;
-  cause: ErrorPayload | null;
+  cause: ErrorPayload | Nul;
 }>;
 
 export class ErrorWithPayload extends Error {
@@ -18,15 +18,15 @@ export class ErrorWithPayload extends Error {
 
 }
 
-export function cerrPayload(cause: ErrorPayload | null, msg: string, info: Info = {}): ErrorPayload {
+export function cerrPayload(cause: ErrorPayload | Nul, msg: Str, info: Info = {}): ErrorPayload {
   return { message: msg, info: info, cause };
 }
 
-export function errPayload(msg: string, info: Info = {}): ErrorPayload {
+export function errPayload(msg: Str, info: Info = {}): ErrorPayload {
   return cerrPayload(null, msg, info);
 }
 
-export function toErrPayload(error: unknown): ErrorPayload {
+export function toErrPayload(error: Unk): ErrorPayload {
   if (error instanceof ErrorWithPayload) {
     return error.payload;
   }
@@ -46,15 +46,15 @@ export function toErrPayload(error: unknown): ErrorPayload {
   }
 }
 
-export function cerr(cause: unknown, msg: string, info: Info = {}): never {
+export function cerr(cause: Unk, msg: Str, info: Info = {}): never {
   throw new ErrorWithPayload(cerrPayload(cause ? toErrPayload(cause) : null, msg, info));
 }
 
-export function err(msg: string, info: Info = {}): never {
+export function err(msg: Str, info: Info = {}): never {
   cerr(null, msg, info);
 }
 
-export function orThrow<TRes>(run: () => TRes, msg: string, info: Info = {}): TRes {
+export function orThrow<TRes>(run: () => TRes, msg: Str, info: Info = {}): TRes {
   try {
     return run();
   } catch (e) {
@@ -62,7 +62,7 @@ export function orThrow<TRes>(run: () => TRes, msg: string, info: Info = {}): TR
   }
 }
 
-export async function orThrowAsync<TRes>(run: () => Promise<TRes>, msg: string, info: Info = {}): Promise<TRes> {
+export async function orThrowAsync<TRes>(run: () => Promise<TRes>, msg: Str, info: Info = {}): Promise<TRes> {
   try {
     return await run();
   } catch (e) {

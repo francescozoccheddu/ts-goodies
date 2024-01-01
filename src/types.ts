@@ -58,7 +58,7 @@ export function isUnd(v: Unk): v is Und {
   return typeof v === 'undefined';
 }
 
-export function isNul(v: Unk): v is null {
+export function isNul(v: Unk): v is Nul {
   return v === null;
 }
 
@@ -66,7 +66,7 @@ export function isSym(v: Unk): v is Sym {
   return typeof v === 'symbol';
 }
 
-export function isNulOrUnd(v: Unk): v is null | undefined {
+export function isNulOrUnd(v: Unk): v is Nul | Und {
   return isNul(v) || isUnd(v);
 }
 
@@ -82,25 +82,25 @@ export function isJson(v: Unk): v is RJson {
 
 // ----- Entries -----
 
-export type Entry<TKey, TValue> = [key: TKey, value: TValue];
-export type REntry<TKey, TValue> = R<Entry<TKey, TValue>>;
+export type Entry<TK, TV> = [key: TK, value: TV];
+export type REntry<TK, TV> = R<Entry<TK, TV>>;
 
 export type AnyEntry = REntry<Unk, Unk>;
 
-export type Entries<TKey, TValue> = Arr<Entry<TKey, TValue>>;
-export type REntries<TKey, TValue> = RArr<REntry<TKey, TValue>>;
+export type Entries<TK, TV> = Arr<Entry<TK, TV>>;
+export type REntries<TK, TV> = RArr<REntry<TK, TV>>;
 
 // ----- Objects -----
 
 export type AnyKey = keyof any;
 
-export type Obj<TKey extends AnyKey = AnyKey, TValue = Unk> = Record<TKey, TValue>;
-export type RObj<TKey extends AnyKey = AnyKey, TValue = Unk> = R<Obj<TKey, TValue>>;
+export type Obj<TK extends AnyKey = AnyKey, TV = Unk> = Record<TK, TV>;
+export type RObj<TK extends AnyKey = AnyKey, TV = Unk> = R<Obj<TK, TV>>;
 
 export type AnyObj = RObj<AnyKey, Unk>;
 
-export type StrObj<TValue = Unk> = Obj<Str, TValue>;
-export type RStrObj<TValue = Unk> = RObj<Str, TValue>;
+export type StrObj<TV = Unk> = Obj<Str, TV>;
+export type RStrObj<TV = Unk> = RObj<Str, TV>;
 
 // ----- Arrays -----
 
@@ -120,9 +120,12 @@ export type AnySet = RSet<Unk>;
 
 // ----- Maps -----
 
-export type RMap<TKey, TValue> = ReadonlyMap<TKey, TValue>;
+export type RMap<TK, TV> = ReadonlyMap<TK, TV>;
 
 export type AnyMap = RMap<Unk, Unk>;
+
+export type StrMap<TV=Unk> = Map<Str, TV>;
+export type RStrMap<TV=Unk> = RMap<Str, TV>;
 
 // ----- Functions -----
 
