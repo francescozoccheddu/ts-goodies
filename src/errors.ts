@@ -18,11 +18,11 @@ export class ErrorWithPayload extends Error {
 
 }
 
-export function cerrPayload(cause: ErrorPayload | Nul, msg: Str, info: Info = {}): ErrorPayload {
+export function cerrPayload(cause: ErrorPayload | Nul, msg: Str, info?: Info): ErrorPayload {
   return { message: msg, info: info, cause };
 }
 
-export function errPayload(msg: Str, info: Info = {}): ErrorPayload {
+export function errPayload(msg: Str, info?: Info): ErrorPayload {
   return cerrPayload(null, msg, info);
 }
 
@@ -46,15 +46,15 @@ export function toErrPayload(error: Unk): ErrorPayload {
   }
 }
 
-export function cerr(cause: Unk, msg: Str, info: Info = {}): never {
+export function cerr(cause: Unk, msg: Str, info?: Info): never {
   throw new ErrorWithPayload(cerrPayload(cause ? toErrPayload(cause) : null, msg, info));
 }
 
-export function err(msg: Str, info: Info = {}): never {
+export function err(msg: Str, info?: Info): never {
   cerr(null, msg, info);
 }
 
-export function orThrow<TRes>(run: () => TRes, msg: Str, info: Info = {}): TRes {
+export function orThrow<TRes>(run: () => TRes, msg: Str, info?: Info): TRes {
   try {
     return run();
   } catch (e) {
@@ -62,7 +62,7 @@ export function orThrow<TRes>(run: () => TRes, msg: Str, info: Info = {}): TRes 
   }
 }
 
-export async function orThrowAsync<TRes>(run: () => Promise<TRes>, msg: Str, info: Info = {}): Promise<TRes> {
+export async function orThrowAsync<TRes>(run: () => Promise<TRes>, msg: Str, info?: Info): Promise<TRes> {
   try {
     return await run();
   } catch (e) {

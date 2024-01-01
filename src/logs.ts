@@ -1,7 +1,7 @@
 import kleur from 'kleur';
 
 import { ErrorPayload, ErrorWithPayload } from './errors';
-import { isEmpty,toArr } from './objects';
+import { isEmpty, toArr } from './objects';
 import { isArr, isBool, isNul, isNum, isStr, isUnd, Num, RObj, Str } from './types';
 
 export type Info = Str | Num | Bool | Nul | Und | { readonly [TK in Str]: Info } | readonly Info[];
@@ -64,46 +64,51 @@ function indent(text: Str, prefix: Str = ''): Str {
 }
 
 enum Color {
-  meta, msg, info, infoKey, infoVal, infoValBadChar, warn, done
+  errMeta, errMsg, info, infoKey, infoVal, infoValBadChar, warn, done, debug,
 }
 
 const colors: RObj<Color, (text: Str) => Str> = {
-  [Color.meta]: kleur.red,
-  [Color.msg]: kleur.red().bold,
+  [Color.errMeta]: kleur.red,
+  [Color.errMsg]: kleur.red().bold,
   [Color.info]: kleur.gray,
   [Color.infoKey]: kleur.gray().bold,
   [Color.infoVal]: kleur.gray().italic,
   [Color.infoValBadChar]: kleur.yellow,
   [Color.warn]: kleur.yellow,
   [Color.done]: kleur.green,
+  [Color.debug]: kleur.blue,
 };
 
 function prErrPayloadImpl(payload: ErrorPayload, depth: Num): void {
   const prefix = '  '.repeat(depth);
   const print = (text: Str): void => console.error(indent(text, prefix));
-  print(colors[Color.msg](payload.message));
+  print(colors[Color.errMsg](payload.message));
   prInfo(payload.info, print);
   if (payload.cause) {
-    print(colors[Color.meta]('Caused by:'));
+    print(colors[Color.errMeta]('Caused by:'));
     prErrPayloadImpl(payload.cause, depth + 1);
   }
 }
 
 export function prInfo(info: Info, log: (text: Str) => void = console.log): void {
-  const formattedInfo = formatInfo(info);
-  if (formattedInfo.length > 0) {
+  if (!isUnd(info)) {
     log(colors[Color.info](formatInfo(info)));
   }
 }
 
-export function prWarn(msg: Str, info: Info = {}): void {
+export function prDebug(msg: Str, info?: Info): void {
+  console.debug(colors[Color.debug](msg));
+  prInfo(info, console.debug);
+}
+
+export function prWarn(msg: Str, info?: Info): void {
   console.warn(colors[Color.warn](msg));
   prInfo(info, console.warn);
 }
 
-export function prDone(msg: Str, info: Info = {}): void {
+export function prDone(msg: Str, info?: Info): void {
   console.log(colors[Color.done](msg));
-  prInfo(info);
+  prInfo(info, console.log);
 }
 
 export function prErrPayload(payload: ErrorPayload): void {
@@ -112,7 +117,7 @@ export function prErrPayload(payload: ErrorPayload): void {
 
 export function prErr(err: ErrorWithPayload, msg: Str | Nul = null): void {
   if (msg) {
-    console.error(colors[Color.meta](msg));
+    console.error(colors[Color.errMeta](msg));
   }
   prErrPayload(err.payload);
 }

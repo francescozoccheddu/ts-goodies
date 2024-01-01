@@ -1,7 +1,7 @@
 import './essentials';
 
 import type { Skip } from '../arrays';
-import { arrays, dicts, errors, objects, sets, types } from '../index';
+import { arrays, dicts, errors, objects, sets, strings, types } from '../index';
 import type { Info } from '../logs';
 
 const getterDescriptor: PropertyDescriptor = {
@@ -69,6 +69,11 @@ function installAugmentations(): void {
     toArr: sets.toArr,
   });
 
+  defineAttributes(String.prototype, {
+    stripStart: strings.stripStart,
+    stripEnd: strings.stripEnd,
+  });
+
   defineAttributes(globalThis, {
     isStr: types.isStr,
     isNum: types.isNum,
@@ -113,6 +118,11 @@ interface SetAugmentations<T> {
   get toArr(): Arr<T>;
 }
 
+interface StringAugmentations {
+  stripStart(prefix: Str): Str;
+  stripEnd(suffix: Str): Str;
+}
+
 declare global {
 
   // ----- types -----
@@ -151,6 +161,10 @@ declare global {
 
   interface Set<T> extends SetAugmentations<T> { }
   interface ReadonlySet<T> extends SetAugmentations<T> { }
+
+  // ----- string -----
+
+  interface String extends StringAugmentations { }
 
   // ----- dicts -----
 

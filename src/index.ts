@@ -6,4 +6,5 @@ export * as maps from './maps';
 export * as math from './math';
 export * as objects from './objects';
 export * as sets from './sets';
+export * as strings from './strings';
 export * as types from './types';
