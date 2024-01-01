@@ -19,23 +19,22 @@
     "types"
   ],
   "scripts": {
-    "build": "rimraf ./tsconfig.tsbuildinfo ./dist && tsc && cpy types/*.d.ts ../dist/types --cwd src && npm-prepare-dist -f README.md -f LICENSE -s build -s lint -s clean -s publish",
+    "build": "shx rm -rf tsconfig.tsbuildinfo dist && tsc && npm-prepare-dist -f README.md -f LICENSE -s build -s lint -s clean -s publish",
     "lint": "eslint ./src",
-    "clean": "rimraf ./tsconfig.tsbuildinfo ./dist",
+    "clean": "shx rm -rf tsconfig.tsbuildinfo dist",
     "publish": "npm run clean && npm run lint && npm run build && cd ./dist && npm publish --access public"
   },
   "devDependencies": {
     "@tsconfig/strictest": "^2.0.2",
     "@typescript-eslint/eslint-plugin": "^6.16.0",
     "@typescript-eslint/parser": "^6.16.0",
-    "cpy-cli": "^5.0.0",
     "eslint": "^8.56.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-unused-imports": "^3.0.0",
     "npm-prepare-dist": "^0.4.1",
-    "rimraf": "^5.0.5",
+    "shx": "^0.3.4",
     "typescript": "^5.3.3"
   },
   "dependencies": {
