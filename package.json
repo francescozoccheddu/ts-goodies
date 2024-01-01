@@ -1,8 +1,9 @@
 {
   "name": "@francescozoccheddu/ts-goodies",
+  "version": "0.0.4",
   "description": "Random TypeScript utilities",
-  "author": "Francesco Zoccheddu",
-  "url": "https://github.com/francescozoccheddu/",
+  "author": "Francesco Zoccheddu (https://github.com/francescozoccheddu/)",
+  "homepage": "https://github.com/francescozoccheddu/ts-goodies#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/francescozoccheddu/ts-goodies.git"
@@ -11,7 +12,6 @@
     "url": "https://github.com/francescozoccheddu/ts-goodies/issues"
   },
   "license": "MIT",
-  "version": "0.0.4",
   "keywords": [
     "typescript",
     "utils",
@@ -19,12 +19,11 @@
     "types"
   ],
   "scripts": {
-    "build": "tsc && cpy types/*.d.ts ../dist/types --cwd src && mk-package",
+    "build": "rimraf ./tsconfig.tsbuildinfo ./dist && tsc && cpy types/*.d.ts ../dist/types --cwd src && npm-prepare-dist -f README.md -f LICENSE -s build -s lint -s clean -s publish",
     "lint": "eslint ./src",
-    "clean": "rimraf ./tsconfig.tsbuildinfo && rimraf ./dist",
+    "clean": "rimraf ./tsconfig.tsbuildinfo ./dist",
     "publish": "npm run clean && npm run lint && npm run build && cd ./dist && npm publish --access public"
   },
-  "homepage": "https://github.com/francescozoccheddu/ts-goodies#readme",
   "devDependencies": {
     "@tsconfig/strictest": "^2.0.2",
     "@typescript-eslint/eslint-plugin": "^6.16.0",
@@ -36,7 +35,7 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-unused-imports": "^3.0.0",
-    "mk-package": "^1.0.2",
+    "npm-prepare-dist": "^0.4.1",
     "rimraf": "^5.0.5",
     "typescript": "^5.3.3"
   },
