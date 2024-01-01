@@ -1,7 +1,7 @@
 import './essentials';
 
 import type { Skip } from '../arrays';
-import { arrays, dicts, objects, sets, types } from '../index';
+import { arrays, dicts, errors, objects, sets, types } from '../index';
 import type { Info } from '../logs';
 
 const getterDescriptor: PropertyDescriptor = {
@@ -81,6 +81,10 @@ function installAugmentations(): void {
     isNul: types.isNul,
     isNulOrUnd: types.isNulOrUnd,
     isJson: types.isJson,
+  });
+
+  defineAttributes(globalThis, {
+    err: errors.err,
   });
 
 }

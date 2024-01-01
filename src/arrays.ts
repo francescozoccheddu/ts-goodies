@@ -1,3 +1,4 @@
+import { Dict } from './dicts';
 import { err } from './errors';
 import { fromArr } from './objects';
 import { AnyKey, Arr, isArr, isNul, isNulOrUnd, isUnd, Nul, Obj, Pred, RArr, REntries, Und, Unk } from './types';
