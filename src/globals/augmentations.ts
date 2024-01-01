@@ -69,7 +69,7 @@ function installAugmentations(): void {
     toArr: sets.toArr,
   });
 
-  defineAttributes(String.prototype, {
+  defineMethodsOrGetters<Str>(String.prototype, {
     stripStart: strings.stripStart,
     stripEnd: strings.stripEnd,
   });
@@ -91,6 +91,10 @@ function installAugmentations(): void {
 
   defineAttributes(globalThis, {
     err: errors.err,
+  });
+
+  defineAttributes(globalThis, {
+    Dict: dicts.Dict,
   });
 
 }
