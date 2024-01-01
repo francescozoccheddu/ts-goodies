@@ -19,8 +19,10 @@
     "types"
   ],
   "scripts": {
-    "build": "eslint ./src && rimraf ./tsconfig.tsbuildinfo && rimraf ./dist && tsc && cpy types/*.d.ts ../dist/types --cwd src && mk-package",
-    "publish": "npm run build && cd ./dist && npm publish --access public"
+    "build": "tsc && cpy types/*.d.ts ../dist/types --cwd src && mk-package",
+    "linto": "eslint ./src",
+    "clean": "rimraf ./tsconfig.tsbuildinfo && rimraf ./dist",
+    "publish": "npm run clean && npm run lint && npm run build && cd ./dist && npm publish --access public"
   },
   "homepage": "https://github.com/francescozoccheddu/ts-goodies#readme",
   "devDependencies": {

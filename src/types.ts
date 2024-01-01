@@ -23,8 +23,8 @@ export type BInt = bigint;
 
 export type Prim = Str | Num | Bool | Sym | BInt | Nul | Und;
 
-export type Json = Str | Num | Bool | Nul | { [key in Str]: Json } | Json[];
-export type RJson = Str | Num | Bool | Nul | { [key in Str]: RJson } | RJson[];
+export type Json = Str | Num | Bool | Nul | { [TK in Str]: Json } | Json[];
+export type RJson = Str | Num | Bool | Nul | { readonly [TK in Str]: RJson } | readonly RJson[];
 
 export function isStr(v: Unk): v is Str {
   return typeof v === 'string' || v instanceof String;

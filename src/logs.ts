@@ -2,9 +2,9 @@ import kleur from 'kleur';
 
 import { ErrorPayload, ErrorWithPayload } from './errors';
 import { isEmpty,toArr } from './objects';
-import { isArr, isBool, isNul, isNum, isStr, isUnd, Num, RJson, RObj, RStrObj,Str } from './types';
+import { isArr, isBool, isNul, isNum, isStr, isUnd, Num, RObj, Str } from './types';
 
-export type Info = RStrObj<RJson | Und>;
+export type Info = Str | Num | Bool | Nul | Und | { readonly [TK in Str]: Info } | readonly Info[];
 
 const stripAnsiRegex = new RegExp([
   '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
@@ -17,12 +17,15 @@ function formatStr(v: Str, maxLen: Num = 50): Str {
   return v.length > maxLen ? safeValue + colors[Color.infoValBadChar]('[…]') : safeValue;
 }
 
-enum FormatJsonMode {
+enum FormatInfoMode {
   root, listItem, dictValue
 }
 
-function formatJson(v: RJson | Info, mode: FormatJsonMode = FormatJsonMode.root): Str {
-  if (isNul(v)) {
+function formatInfo(v: Info, mode: FormatInfoMode = FormatInfoMode.root): Str {
+  if (isUnd(v)) {
+    return '';
+  }
+  else if (isNul(v)) {
     return colors[Color.infoVal]('null');
   }
   else if (isNum(v)) {
@@ -34,9 +37,9 @@ function formatJson(v: RJson | Info, mode: FormatJsonMode = FormatJsonMode.root)
   else if (isArr(v)) {
     return v.length === 0
       ? '[]'
-      : (mode === FormatJsonMode.dictValue ? '\n' : '') + v
+      : (mode === FormatInfoMode.dictValue ? '\n' : '') + v
         .filter(v => !isUnd(v))
-        .map(v => indent(formatJson(v, FormatJsonMode.listItem), mode === FormatJsonMode.dictValue ? '  - ' : '- '))
+        .map(v => indent(formatInfo(v, FormatInfoMode.listItem), mode === FormatInfoMode.dictValue ? '  - ' : '- '))
         .join('\n');
   }
   else if (isStr(v)) {
@@ -47,9 +50,9 @@ function formatJson(v: RJson | Info, mode: FormatJsonMode = FormatJsonMode.root)
   else if (isObj(v)) {
     return isEmpty(v)
       ? '{}'
-      : (mode === FormatJsonMode.dictValue ? '\n' : '') + toArr(v)
+      : (mode === FormatInfoMode.dictValue ? '\n' : '') + toArr(v)
         .filter(([, v]) => !isUnd(v))
-        .map(([k, v]) => indent(`${colors[Color.infoKey](formatStr(k.toString(), 50))}: ${formatJson(v as RJson, FormatJsonMode.dictValue)}`, mode === FormatJsonMode.dictValue ? '  ' : ''))
+        .map(([k, v]) => indent(`${colors[Color.infoKey](formatStr(k.toString(), 50))}: ${formatInfo(v, FormatInfoMode.dictValue)}`, mode === FormatInfoMode.dictValue ? '  ' : ''))
         .join('\n');
   }
   return colors[Color.infoVal]('Unk');
@@ -87,8 +90,9 @@ function prErrPayloadImpl(payload: ErrorPayload, depth: Num): void {
 }
 
 export function prInfo(info: Info, log: (text: Str) => void = console.log): void {
-  if (!isEmpty(info)) {
-    log(colors[Color.info](formatJson(info)));
+  const formattedInfo = formatInfo(info);
+  if (formattedInfo.length > 0) {
+    log(colors[Color.info](formatInfo(info)));
   }
 }
 

@@ -39,3 +39,7 @@ export const filterKeys = filterEntries;
 export function filterValues<TK extends AnyKey, TV>(obj: RObj<TK, TV>, pred: (value: TV, key: TK) => Bool): Obj<TK, TV> {
   return filterEntries(obj, (k, v) => pred(v, k));
 }
+
+export type FilterByEntryValue<TObj extends AnyObj, TV> = R<{
+  [TK in keyof TObj as TObj[TK] extends TV ? TK : never]: TObj[TK]
+}>

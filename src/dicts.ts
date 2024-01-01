@@ -14,10 +14,15 @@ export interface RDict<TK, TV> {
 
 export class Dict<TK, TV> implements Dict<TK, TV> {
 
-  private readonly map;
+  private readonly map: Map<TK, TV>;
 
-  constructor(values: REntries<TK, TV> | Map<TK, TV> = new Map()) {
-    this.map = isMap(values) ? values : new Map(values);
+  constructor(values: REntries<TK, TV> | Map<TK, TV> | Obj<TK & AnyKey, TV> = new Map()) {
+    this.map = isMap(values)
+      ? values
+      : isArr(values)
+        ? new Map(values)
+        : new Map(objToArr(values) as Entries<TK, TV>)
+    ;
   }
 
   getOrSet(key: TK, or: () => TV): TV {
