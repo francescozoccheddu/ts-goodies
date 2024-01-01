@@ -41,6 +41,7 @@ function installAugmentations(): void {
     all: arrays.all,
     isEmpty: arrays.isEmpty,
     isSingle: arrays.isSingle,
+    isMany: arrays.isMany,
     singleIf: arrays.singleIf,
     single: arrays.single,
     toSet: arrays.toSet,
@@ -95,6 +96,7 @@ interface ArrayAugmentations<T> {
   all(pred: Pred<T>): Bool;
   get isEmpty(): Bool;
   get isSingle(): Bool;
+  get isMany(): Bool;
   singleIf(pred: Pred<T>): T;
   get single(): T;
   get toSet(): Set<T>;

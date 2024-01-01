@@ -23,6 +23,10 @@ export function isSingle<T>(arr: RArr<T>): Bool {
   return arr.length === 1;
 }
 
+export function isMany<T>(arr: RArr<T>): Bool {
+  return arr.length > 1;
+}
+
 export function singleIf<T>(arr: RArr<T>, pred: Pred<T> | Nul = null): T {
   let index: Num = -1;
   arr.forEach((v, i) => {
