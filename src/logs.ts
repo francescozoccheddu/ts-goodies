@@ -2,7 +2,7 @@ import kleur from 'kleur';
 
 import { ErrorPayload, toErrPayload } from './errors';
 import { isEmpty, toArr } from './objects';
-import { isArr, isBool, isNul, isNum, isStr, isUnd, Num, RObj, Str } from './types';
+import { isArr, isBool, isNul, isNum, isStr, isUnd, isObj, Num, RObj, Str } from './types';
 
 export type Info = Str | Num | Bool | Nul | Und | { readonly [TK in Str]: Info } | readonly Info[];
 
